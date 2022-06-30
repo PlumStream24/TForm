@@ -1,0 +1,31 @@
+<div class="img-container">
+    <img src="assets/coin.png" />
+</div>
+
+<div class="form-container bottom-align mat-elevation-z5">
+    <h1 class="text-center">Login</h1>
+    <form [formGroup]="loginForm">
+        <mat-form-field>
+            <input matInput placeholder="Email Address" formControlName="email" />
+            <mat-error *ngIf="email?.errors?.['required']">
+                Email is required
+            </mat-error>
+            <mat-error *ngIf="email?.errors?.['email']">
+                Please enter a valid email address
+            </mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Password" [type]="hide ? 'password' : 'text'" formControlName="password" />
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="password?.errors?.['required']">
+                Password is required
+            </mat-error>
+        </mat-form-field>
+        <div class="center margin-top">
+            <button mat-raised-button color="primary" type="submit" routerLink="">
+                Login
+            </button>
+        </div>
+        <span class="center margin-top margin-bottom">Don't have an account? <a class="sign-up-link" routerLink="sign-up">Sign Up</a></span>
+    </form>
+</div>
