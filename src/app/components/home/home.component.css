@@ -1,6 +1,6 @@
 .avatar {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   /* position: absolute; */
   transform: translate(0, -10%);
   border-radius: 50%;
@@ -12,8 +12,16 @@
   background-image: url("https://img.freepik.com/free-vector/white-prism-background-design-vector_53876-86339.jpg?w=826&t=st=1656582925~exp=1656583525~hmac=cbf27dad8808220854038f54ca8c6eaa4b9c7249bc5504cb7a2f6022c6d23e25");
   border-radius: 0px;
   box-shadow: none;
+  min-height: 100px;
 }
 
 .header-img {
   height: 170px
+}
+
+.content {
+  transform: translate(0, -32px);
+  border-radius: 36px 36px 0px 0px;
+  background-color: #fff;
+  padding: 32px;
 }

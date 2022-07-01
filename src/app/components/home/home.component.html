@@ -10,5 +10,22 @@
 </div>
 
 <div class="content">
-
+  <h1>
+    Forms
+  </h1>
+  <mat-action-list>
+    <div mat-subheader>Unfilled forms</div>
+    <mat-list-item *ngFor="let form of unfilledForms" (click)="openForm()">
+      <div mat-line>{{form.name}}</div>
+      <div mat-line>{{form.creator}}</div>
+      <div mat-list>{{form.date | date}}</div>
+    </mat-list-item>
+    <div mat-subheader>Filled forms</div>
+    <mat-list-item *ngFor="let form of filledForms">
+      <div mat-line>{{form.name}}</div>
+      <div mat-line>{{form.creator}}</div>
+      <div mat-list>{{form.date | date}}</div>
+    </mat-list-item>
+    <p mat-list *ngIf="filledForms.length == 0" class="text-center">There are none</p>
+  </mat-action-list>
 </div>
