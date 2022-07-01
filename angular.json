@@ -96,6 +96,16 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "TForm:build:production",
+            "firebaseProject": "tforms-1ea7c",
+            "firebaseHostingSite": "tforms-1ea7c"
+          }
         }
       }
     }

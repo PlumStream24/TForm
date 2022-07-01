@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "tforms-1ea7c": {
+      "hosting": {
+        "TForm": [
+          "tforms-1ea7c"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "tforms-1ea7c"
+  }
+}
