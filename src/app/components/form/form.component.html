@@ -1,0 +1,28 @@
+<div style="padding: 20px;">
+  <div class="form-title">
+    <h1></h1>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form-container">
+
+    <div class="form-header">
+      <h1>Questionnaire</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dictum vel orci.</p>
+    </div>
+
+    <div *ngFor="let question of questions" class="form-row">
+      <app-question [question]="question" [form]="form"></app-question>
+    </div>
+
+
+    <div class="margin-top">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Submit</button>
+    </div>
+  </form>
+
+  <!---
+  <div *ngIf="payLoad" class="form-row">
+    <strong>Saved the following values</strong><br>{{payLoad}}
+  </div>
+  -->
+</div>

@@ -13,17 +13,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
+import { MatSelectModule } from '@angular/material/select';
 import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
+import { FormComponent } from './components/form/form.component';
+import { FormQuestionComponent } from './components/form-question/form-question.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    FormComponent,
+    FormQuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +41,7 @@ import { HotToastModule } from '@ngneat/hot-toast';
     MatIconModule,
     MatCardModule,
     MatListModule,
+    MatSelectModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
