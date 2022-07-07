@@ -29,16 +29,22 @@ export class QuestionBase<T> {
   }
 }
 
-export class TextboxQuestion extends QuestionBase<string> {
-  override controlType = 'textbox';
-}
 
-export class DropdownQuestion extends QuestionBase<string> {
-  override controlType = 'dropdown';
-}
+export interface QuestionIntf {
+  formTitle: string,
+  authorName: string,
+  authorEmail: string,
+  recipients: string[],
+  questions: {
+    value?: string|undefined,
+    key: string,
+    label: string,
+    required?: boolean,
+    order?: number,
+    controlType: string,
+    type?: string,
+    options?: {key: string, value: string}[]
+  }[],
+  createdAt: Date
 
-/*
-Copyright Google LLC. All Rights Reserved.
-Use of this source code is governed by an MIT-style license that
-can be found in the LICENSE file at https://angular.io/license
-*/
+}

@@ -2,7 +2,7 @@
 
   <div [ngSwitch]="question.controlType">
 
-    <mat-form-field appearance="fill">
+    <mat-form-field *ngSwitchDefault [ngSwitch]="question.controlType" appearance="fill">
       <mat-label [attr.for]="question.key">{{question.label}}</mat-label>
 
       <input matInput *ngSwitchCase="'textbox'" [formControlName]="question.key" [id]="question.key" [type]="question.type">
@@ -16,6 +16,11 @@
       </mat-error>
 
     </mat-form-field>
+
+    <mat-radio-group *ngSwitchCase="'radio'" class="radio-group" [id]="question.key" [formControlName]="question.key">
+      <label class="radio-group-label">{{question.label}}</label>
+      <mat-radio-button *ngFor="let opt of question.options" class="radio-button" [value]="opt.key">{{opt.value}}</mat-radio-button>
+    </mat-radio-group>
 
   </div>
 
