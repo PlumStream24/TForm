@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { UsersService } from 'src/app/services/users.service';
+import { User } from 'src/app/models/user-base';
+import { QuestionIntf } from 'src/app/models/question-base';
+import { QuestionService } from 'src/app/services/question.service';
+
+import { Router } from '@angular/router';
 
 export interface Forms {
   name: string;
@@ -13,28 +19,24 @@ export interface Forms {
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  user$?: User;
+  unfilledForms: QuestionIntf[] = [];
+  filledForms: QuestionIntf[] = [];
 
-  ngOnInit(): void {
+  constructor(
+    private userService: UsersService,
+    private qs: QuestionService,
+    private router: Router
+  ) {
+    userService.currentUser$.subscribe(data => {
+      if (data != null) this.user$ = data;
+    });
   }
 
-  unfilledForms: Forms[] = [
-    {
-      name: 'Survey 1',
-      creator: 'anon',
-      date: new Date('1/1/16'),
-    },
-    {
-      name: 'Survey 2',
-      creator: 'anon',
-      date: new Date('1/17/16'),
-    }
-  ];
-
-  filledForms: Forms[] = [];
-
-  openForm() {
-
+  ngOnInit(): void {
+    this.qs.getQuestions2().subscribe(q => {
+      this.unfilledForms = q
+    });
   }
 
 }

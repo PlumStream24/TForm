@@ -8,7 +8,7 @@ import { FormComponent } from './components/form/form.component';
 const routes: Routes = [
   { path: 'login', component: LoginComponent, ...canActivate(() => redirectLoggedInTo(['/'])) },
   { path: '', component: HomeComponent, ...canActivate(() => redirectUnauthorizedTo(['/login'])) },
-  { path: 'form', component: FormComponent, ...canActivate(() => redirectUnauthorizedTo(['/login']))}
+  { path: 'form/:docId', component: FormComponent, ...canActivate(() => redirectUnauthorizedTo(['/login']))}
 ];
 
 @NgModule({

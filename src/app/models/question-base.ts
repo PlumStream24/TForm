@@ -31,6 +31,7 @@ export class QuestionBase<T> {
 
 
 export interface QuestionIntf {
+  docId: string,
   formTitle: string,
   authorName: string,
   authorEmail: string,
@@ -45,6 +46,6 @@ export interface QuestionIntf {
     type?: string,
     options?: {key: string, value: string}[]
   }[],
-  createdAt: Date
+  createdAt: any
 
 }

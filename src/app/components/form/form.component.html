@@ -6,7 +6,7 @@
   <form (ngSubmit)="onSubmit()" [formGroup]="form" class="form-container">
 
     <div class="form-header">
-      <h1>Questionnaire</h1>
+      <h1>{{this.doc?.formTitle}}</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas dictum vel orci.</p>
     </div>
 
@@ -20,9 +20,9 @@
     </div>
   </form>
 
-  <!---
+
   <div *ngIf="payLoad" class="form-row">
     <strong>Saved the following values</strong><br>{{payLoad}}
   </div>
-  -->
+
 </div>

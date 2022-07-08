@@ -22,6 +22,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { FormComponent } from './components/form/form.component';
 import { FormQuestionComponent } from './components/form-question/form-question.component';
+import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,9 @@ import { FormQuestionComponent } from './components/form-question/form-question.
     provideFirestore(() => getFirestore()),
     HotToastModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    { provide: FIREBASE_OPTIONS, useValue: environment.firebase }
+],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
