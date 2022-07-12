@@ -16,7 +16,6 @@ import { QuestionService } from 'src/app/services/question.service';
 export class FormComponent implements OnInit {
 
   form!: FormGroup;
-  payLoad = '';
   questions: QuestionBase<string>[] | null = [];
   questionsI: QuestionIntf[] = [];
   doc?: QuestionIntf;
@@ -46,7 +45,8 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.payLoad = JSON.stringify(this.form.getRawValue());
+    let payLoad = this.form.getRawValue();
+    this.qs.submitAnswer(payLoad);
   }
 
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { doc, docData, Firestore } from '@angular/fire/firestore';
-import { Observable, switchMap, of } from 'rxjs';
+import { doc, docData, setDoc, Firestore } from '@angular/fire/firestore';
+import { Observable, switchMap, of, from } from 'rxjs';
 import { User } from 'src/app/models/user-base'
 import { AuthenticationService } from './authentication.service';
 
@@ -22,5 +22,10 @@ export class UsersService {
         return docData(ref) as Observable<User>;
       })
     )
+  }
+
+  updateToken(user: User, token: string) : Observable<any> {
+    const ref = doc(this.firestore, 'accounts', user?.uid);
+    return from(setDoc(ref, {...user, token}))
   }
 }

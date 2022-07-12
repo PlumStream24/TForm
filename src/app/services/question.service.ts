@@ -40,6 +40,11 @@ export class QuestionService {
 
     return of(this.questions.sort((a, b) => a.order - b.order));
   }
+
+  submitAnswer(formAnswer: any) {
+    const formAnswersCollection = this.afs.collection('form-answers');
+    formAnswersCollection.add(formAnswer);
+  }
 }
 
 

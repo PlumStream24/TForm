@@ -19,10 +19,13 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { HotToastModule } from '@ngneat/hot-toast';
 import { FormComponent } from './components/form/form.component';
 import { FormQuestionComponent } from './components/form-question/form-question.component';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,15 @@ import { FIREBASE_OPTIONS } from '@angular/fire/compat';
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    HotToastModule.forRoot()
+    AngularFirestoreModule.enablePersistence(),
+    AngularFireMessagingModule,
+    HotToastModule.forRoot(),
+    ServiceWorkerModule.register('service-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [
     { provide: FIREBASE_OPTIONS, useValue: environment.firebase }

@@ -9,7 +9,7 @@
 
 .profile-card {
   padding: 32px;
-  background-image: url("https://img.freepik.com/free-vector/white-prism-background-design-vector_53876-86339.jpg?w=826&t=st=1656582925~exp=1656583525~hmac=cbf27dad8808220854038f54ca8c6eaa4b9c7249bc5504cb7a2f6022c6d23e25");
+  background-image: url("https://i.pinimg.com/600x315/56/96/f7/5696f7f51494443ee5665bbebe94cc58.jpg");
   border-radius: 0px;
   box-shadow: none;
   min-height: 100px;
@@ -24,4 +24,29 @@
   border-radius: 36px 36px 0px 0px;
   background-color: #fff;
   padding: 32px;
+}
+
+.notif-alert {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  
+  background-color: rgba(105, 240, 174, 0.5);
+  padding: 12px;
+  margin: 0px -10px 15px -10px;
+  
+  border-radius: 5px;
+  border: solid rgba(105, 240, 174, 1);
+  border-width: 1px;
+}
+
+.notif-alert p {
+  margin: auto;
+  width: 80%;
+}
+
+.notif-alert button {
+  background-color: #fff;
 }
