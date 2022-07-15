@@ -33,6 +33,7 @@ export class QuestionBase<T> {
 export interface QuestionIntf {
   docId: string,
   formTitle: string,
+  formDesc: string,
   authorName: string,
   authorEmail: string,
   recipients: string[],

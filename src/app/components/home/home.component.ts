@@ -6,6 +6,7 @@ import { QuestionService } from 'src/app/services/question.service';
 import { Router } from '@angular/router';
 import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 import { mergeMapTo } from 'rxjs/operators';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 
 export interface Forms {
   name: string;
@@ -30,6 +31,7 @@ export class HomeComponent implements OnInit {
     private qs: QuestionService,
     private router: Router,
     private afMessaging: AngularFireMessaging,
+    private authService: AuthenticationService
   ) {
     userService.currentUser$.subscribe(data => {
       if (data != null) this.user$ = data;
@@ -49,8 +51,10 @@ export class HomeComponent implements OnInit {
       .pipe(mergeMapTo(this.afMessaging.tokenChanges))
       .subscribe(
         (token) => { 
-          console.log('Permission granted! Save to the server!', token); 
-          this.userService.updateToken(this.user$!, token!);
+          console.log('Permission granted! Save to the server!', token);
+          if (token != null) {
+            this.userService.updateToken(this.user$!, token!);
+          }
         },
         (error) => { console.error(error); },  
       );
@@ -58,6 +62,12 @@ export class HomeComponent implements OnInit {
 
   notifPermission() {
     return Notification.permission == 'granted';
+  }
+
+  logout() {
+    this.authService.logout().subscribe(() => {
+      this.router.navigate(['login']);
+    })
   }
 
 }

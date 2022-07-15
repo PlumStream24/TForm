@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { QuestionBase, QuestionIntf } from 'src/app/models/question-base';
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
@@ -43,7 +43,7 @@ export class QuestionService {
 
   submitAnswer(formAnswer: any) {
     const formAnswersCollection = this.afs.collection('form-answers');
-    formAnswersCollection.add(formAnswer);
+    return from(formAnswersCollection.add(formAnswer));
   }
 }
 

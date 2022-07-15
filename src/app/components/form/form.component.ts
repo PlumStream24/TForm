@@ -5,7 +5,12 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { QuestionBase, QuestionIntf } from 'src/app/models/question-base';
 import { QuestionControlService } from 'src/app/services/question-control.service';
 import { Observable } from 'rxjs';
+import { ResponseIntf } from 'src/app/models/response-base';
+import { UsersService } from 'src/app/services/users.service';
+import { User } from 'src/app/models/user-base';
+
 import { QuestionService } from 'src/app/services/question.service';
+import { HotToastService } from '@ngneat/hot-toast';
 
 @Component({
   selector: 'app-form',
@@ -15,6 +20,7 @@ import { QuestionService } from 'src/app/services/question.service';
 })
 export class FormComponent implements OnInit {
 
+  user$?: User;
   form!: FormGroup;
   questions: QuestionBase<string>[] | null = [];
   questionsI: QuestionIntf[] = [];
@@ -23,9 +29,13 @@ export class FormComponent implements OnInit {
   constructor(
     private qs: QuestionService,
     private qcs: QuestionControlService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+    private toast: HotToastService,
+    private userService: UsersService
   ) {
-
+    userService.currentUser$.subscribe(data => {
+      if (data != null) this.user$ = data;
+    });
   }
 
   ngOnInit() {
@@ -46,7 +56,18 @@ export class FormComponent implements OnInit {
 
   onSubmit() {
     let payLoad = this.form.getRawValue();
-    this.qs.submitAnswer(payLoad);
+    let response : ResponseIntf = {
+      docId: this.doc?.docId,
+      respondent: this.user$?.email,
+      answer: payLoad
+    }
+    this.qs.submitAnswer(response).pipe(
+      this.toast.observe({
+        success: "Sent!",
+        loading: "Sending response...",
+        error: "An error occured"
+      })
+    ).subscribe();
   }
 
 }

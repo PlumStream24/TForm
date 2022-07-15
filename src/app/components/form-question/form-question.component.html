@@ -22,6 +22,11 @@
       <mat-radio-button *ngFor="let opt of question.options" class="radio-button" [value]="opt.key">{{opt.value}}</mat-radio-button>
     </mat-radio-group>
 
+    <div *ngSwitchCase="'checkbox'" class="radio-group" [id]="question.key" [formGroupName]="question.key">
+      <label class="radio-group-label">{{question.label}}</label>
+      <p *ngFor="let opt of question.options"><mat-checkbox [formControlName]="opt.key">{{opt.value}}</mat-checkbox></p>
+    </div>
+
   </div>
 
   <!--<div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div>-->
