@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { HotToastService } from '@ngneat/hot-toast';
+import { AngularFireMessaging } from '@angular/fire/compat/messaging';
 
 @Component({
   selector: 'app-root',
@@ -15,9 +16,14 @@ export class AppComponent implements OnInit {
   constructor(
     public authService: AuthenticationService,
     private router: Router,
-    private toast: HotToastService
+    private toast: HotToastService,
+    private afMessaging: AngularFireMessaging
   ) {
     this.offline = !navigator.onLine;
+  }
+  listen() {
+    this.afMessaging.messages
+      .subscribe((message) => { console.log(message); });
   }
 
   ngOnInit(): void {
