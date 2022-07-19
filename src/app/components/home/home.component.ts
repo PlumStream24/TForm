@@ -49,7 +49,6 @@ export class HomeComponent implements OnInit {
 
   requestPermission() {
     this.afMessaging.requestPermission
-      .pipe(mergeMapTo(this.afMessaging.tokenChanges))
       .subscribe(
         (token) => { 
           console.log(token);
