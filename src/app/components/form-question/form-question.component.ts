@@ -19,4 +19,12 @@ export class FormQuestionComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onSave() {
+    setTimeout(() => {
+      console.log("persist");
+      localStorage.removeItem("form-persist");
+      localStorage.setItem("form-persist", JSON.stringify(this.form.getRawValue()));
+    }, 200);
+  }
+
 }

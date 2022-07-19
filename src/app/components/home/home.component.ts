@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   unfilledForms: QuestionIntf[] = [];
   filledForms: QuestionIntf[] = [];
   notifEnabled: boolean;
+  defaultURL = "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg";
 
   constructor(
     private userService: UsersService,

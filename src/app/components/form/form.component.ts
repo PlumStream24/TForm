@@ -4,10 +4,11 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 import { QuestionBase, QuestionIntf } from 'src/app/models/question-base';
 import { QuestionControlService } from 'src/app/services/question-control.service';
-import { Observable } from 'rxjs';
+import { Observable, auditTime, take } from 'rxjs';
 import { ResponseIntf } from 'src/app/models/response-base';
 import { UsersService } from 'src/app/services/users.service';
 import { User } from 'src/app/models/user-base';
+import 'src/app/models/sync-manager';
 
 import { QuestionService } from 'src/app/services/question.service';
 import { HotToastService } from '@ngneat/hot-toast';
@@ -39,16 +40,22 @@ export class FormComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.form = new FormGroup({});
     const routeParams = this.router.snapshot.paramMap;
     const docIdFromRoute = routeParams.get('docId');
 
-    this.qs.getQuestions2().subscribe(qI => {
-      this.questionsI = qI;
+    this.qs.getQuestions2().pipe(auditTime(200), take(1)).subscribe(res => {
+      this.questionsI = res;
       this.doc = this.questionsI.find(form => form.docId === docIdFromRoute);
       let questionsObs = this.qs.getQuestions(this.doc!);
       questionsObs.subscribe(q => {
         this.questions = q;
         this.form = this.qcs.toFormGroup(this.questions as QuestionBase<string>[]);
+        let fa = localStorage.getItem('form-persist')
+        if (fa) {
+          let fs = JSON.parse(fa);
+          this.form.setValue(fs);
+        }
       })
 
     });
@@ -63,11 +70,22 @@ export class FormComponent implements OnInit {
     }
     this.qs.submitAnswer(response).pipe(
       this.toast.observe({
-        success: "Sent!",
-        loading: "Sending response...",
-        error: "An error occured"
+        success: "Sent!"
       })
-    ).subscribe();
+    ).subscribe(
+      err => {
+        localStorage.removeItem("form-bgsync");
+        localStorage.setItem("form-bgsync", JSON.stringify(this.form.getRawValue()));
+        navigator.serviceWorker.ready.then((swRegistration) =>
+          swRegistration.sync.register('submit')
+        ).catch(console.log)
+      }
+    );
+  }
+
+  reset() {
+    this.form.reset();
+    localStorage.removeItem("form-persist");
   }
 
 }
