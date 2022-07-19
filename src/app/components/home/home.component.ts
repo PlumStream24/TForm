@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
     this.qs.getQuestions2().subscribe(q => {
       this.unfilledForms = q
     });
-    //this.requestPermission();
+    this.requestPermission();
   }
 
   requestPermission() {
@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
       .pipe(mergeMapTo(this.afMessaging.tokenChanges))
       .subscribe(
         (token) => { 
-          console.log('Permission granted! Save to the server!', token);
+          console.log(token);
           if (token != null) {
             this.userService.updateToken(this.user$!, token!);
           }

@@ -14,6 +14,7 @@ export class UsersService {
   get currentUser$() {
     return this.authService.currentUser$.pipe(
       switchMap(user => {
+        console.log(user);
         if (!user?.uid) {
           return of(null)
         }
