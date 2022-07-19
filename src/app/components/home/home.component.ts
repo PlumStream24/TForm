@@ -50,6 +50,12 @@ export class HomeComponent implements OnInit {
   requestPermission() {
     this.afMessaging.requestPermission
       .subscribe(
+        (token) => { },
+        (error) => { console.error(error); },  
+      );
+
+    this.afMessaging.requestToken
+      .subscribe(
         (token) => { 
           console.log(token);
           if (token != null) {
