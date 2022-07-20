@@ -51,7 +51,7 @@ export class FormComponent implements OnInit {
       questionsObs.subscribe(q => {
         this.questions = q;
         this.form = this.qcs.toFormGroup(this.questions as QuestionBase<string>[]);
-        let fa = localStorage.getItem('form-persist')
+        let fa = localStorage.getItem(`${this.doc!.docId}-persist`);
         if (fa) {
           let fs = JSON.parse(fa);
           this.form.setValue(fs);
@@ -85,7 +85,7 @@ export class FormComponent implements OnInit {
 
   reset() {
     this.form.reset();
-    localStorage.removeItem("form-persist");
+    localStorage.removeItem(`${this.doc!.docId}-persist`);
   }
 
 }

@@ -12,6 +12,7 @@ export class FormQuestionComponent implements OnInit {
 
   @Input() question!: QuestionBase<string>;
   @Input() form!: FormGroup;
+  @Input() docId!: string;
   get isValid() { return this.form.controls[this.question.key].valid; }
 
   constructor() { }
@@ -22,8 +23,8 @@ export class FormQuestionComponent implements OnInit {
   onSave() {
     setTimeout(() => {
       console.log("persist");
-      localStorage.removeItem("form-persist");
-      localStorage.setItem("form-persist", JSON.stringify(this.form.getRawValue()));
+      localStorage.removeItem(`${this.docId}-persist`);
+      localStorage.setItem(`${this.docId}-persist`, JSON.stringify(this.form.getRawValue()));
     }, 200);
   }
 

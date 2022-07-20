@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.qs.getQuestions2().subscribe(q => {
-      this.unfilledForms = q
+      this.unfilledForms = q.sort((a, b) => b.createdAt - a.createdAt);
     });
     this.pushNotification();
   }
