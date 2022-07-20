@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from './services/authentication.service';
 import { HotToastService } from '@ngneat/hot-toast';
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
+import { SwPush } from '@angular/service-worker';
 
 @Component({
   selector: 'app-root',
@@ -17,18 +17,21 @@ export class AppComponent implements OnInit {
     public authService: AuthenticationService,
     private router: Router,
     private toast: HotToastService,
-    private afMessaging: AngularFireMessaging
+    private swPush: SwPush
   ) {
     this.offline = !navigator.onLine;
-  }
-  listen() {
-    this.afMessaging.messages
-      .subscribe((message) => { console.log(message); });
   }
 
   ngOnInit(): void {
     window.addEventListener('online',  this.onNetworkStatusChange.bind(this));
     window.addEventListener('offline', this.onNetworkStatusChange.bind(this));
+
+    this.swPush.messages.subscribe(message => console.log(message));
+    this.swPush.notificationClicks.subscribe(
+      ({action, notification}) => {
+        window.open(notification.data);
+      }
+    )
   }
 
   onNetworkStatusChange(): void {
@@ -40,9 +43,4 @@ export class AppComponent implements OnInit {
     }
   }
 
-  logout() {
-    this.authService.logout().subscribe(() => {
-      this.router.navigate(['/login']);
-    })
-  }
 }

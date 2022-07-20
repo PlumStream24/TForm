@@ -4,9 +4,8 @@ import { User } from 'src/app/models/user-base';
 import { QuestionIntf } from 'src/app/models/question-base';
 import { QuestionService } from 'src/app/services/question.service';
 import { Router } from '@angular/router';
-import { AngularFireMessaging } from '@angular/fire/compat/messaging';
-import { mergeMapTo } from 'rxjs/operators';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { SwPush } from '@angular/service-worker';
 
 export interface Forms {
   name: string;
@@ -25,14 +24,16 @@ export class HomeComponent implements OnInit {
   unfilledForms: QuestionIntf[] = [];
   filledForms: QuestionIntf[] = [];
   notifEnabled: boolean;
-  defaultURL = "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg";
+  pushNotif: PushSubscription | null = null;
+  private readonly notifPublicKey = 'BPfuGqkKjhZ6KGBzJaJUKO1XkxjGQgAmYA3WZqIigu8xq129o542EoiQJuGV7gEykSTAVmUOE_aDklOU8FuiaOo';
+  readonly defaultURL = "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg";
 
   constructor(
     private userService: UsersService,
     private qs: QuestionService,
     private router: Router,
-    private afMessaging: AngularFireMessaging,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private swPush: SwPush
   ) {
     userService.currentUser$.subscribe(data => {
       if (data != null) this.user$ = data;
@@ -44,9 +45,10 @@ export class HomeComponent implements OnInit {
     this.qs.getQuestions2().subscribe(q => {
       this.unfilledForms = q
     });
-    this.requestPermission();
+    this.pushNotification();
   }
 
+  /*
   requestPermission() {
     this.afMessaging.requestPermission
       .subscribe(
@@ -64,6 +66,26 @@ export class HomeComponent implements OnInit {
         },
         (error) => { console.error(error); },  
       );
+  }
+  */
+
+  pushNotification() {
+    if (!this.swPush.isEnabled) {
+      console.log('Notification is not enabled');
+      return;
+    }
+
+    this.swPush.requestSubscription({
+      serverPublicKey: this.notifPublicKey
+    })
+    .then(sub => {
+      console.log(JSON.stringify(sub))
+      this.pushNotif = sub;
+      if (this.pushNotif != null) {
+        this.userService.updateToken(this.user$!, JSON.stringify(this.pushNotif));
+      }
+    })
+    .catch(err => console.log(err))
   }
 
   notifPermission() {
