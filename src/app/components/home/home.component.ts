@@ -84,6 +84,7 @@ export class HomeComponent implements OnInit {
       if (this.pushNotif != null) {
         this.userService.updateToken(this.user$!, JSON.stringify(this.pushNotif));
       }
+      this.notifEnabled = this.notifPermission();
     })
     .catch(err => console.log(err))
   }

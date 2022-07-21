@@ -29,7 +29,7 @@ export class AppComponent implements OnInit {
     this.swPush.messages.subscribe(message => console.log(message));
     this.swPush.notificationClicks.subscribe(
       ({action, notification}) => {
-        window.open(notification.data);
+        window.open(notification.data.url, "_self");
       }
     )
   }
